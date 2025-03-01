@@ -1,1 +1,147 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Santander Brand Style Variables */
+:root {
+    --santander-red: #EC0000;
+    --santander-dark-red: #B30000;
+    --santander-light-red: #FF3333;
+    --santander-white: #FFFFFF;
+    --santander-black: #000000;
+    --santander-gray-light: #F2F2F2;
+    --santander-gray-medium: #D9D9D9;
+    --santander-gray-dark: #666666;
+    
+    /* Additional UI Colors */
+    --santander-success: #4CAF50;
+    --santander-warning: #FF9800;
+    --santander-error: #F44336;
+    --santander-info: #2196F3;
+    
+    /* Font sizes */
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 20px;
+    --font-size-xl: 24px;
+    
+    /* Spacing */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    
+    /* Border radius */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+  }
+  
+  /* Global styles */
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--santander-black);
+    background-color: var(--santander-gray-light);
+  }
+  
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    font-weight: 600;
+  }
+  
+  h1 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  h2 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  h3 {
+    font-size: var(--font-size-md);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  /* Utility Classes */
+  .text-red {
+    color: var(--santander-red);
+  }
+  
+  .bg-red {
+    background-color: var(--santander-red);
+    color: var(--santander-white);
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .mt-1 { margin-top: var(--spacing-xs); }
+  .mt-2 { margin-top: var(--spacing-sm); }
+  .mt-3 { margin-top: var(--spacing-md); }
+  .mt-4 { margin-top: var(--spacing-lg); }
+  .mt-5 { margin-top: var(--spacing-xl); }
+  
+  .mb-1 { margin-bottom: var(--spacing-xs); }
+  .mb-2 { margin-bottom: var(--spacing-sm); }
+  .mb-3 { margin-bottom: var(--spacing-md); }
+  .mb-4 { margin-bottom: var(--spacing-lg); }
+  .mb-5 { margin-bottom: var(--spacing-xl); }
+  
+  .ml-1 { margin-left: var(--spacing-xs); }
+  .ml-2 { margin-left: var(--spacing-sm); }
+  .ml-3 { margin-left: var(--spacing-md); }
+  .ml-4 { margin-left: var(--spacing-lg); }
+  .ml-5 { margin-left: var(--spacing-xl); }
+  
+  .mr-1 { margin-right: var(--spacing-xs); }
+  .mr-2 { margin-right: var(--spacing-sm); }
+  .mr-3 { margin-right: var(--spacing-md); }
+  .mr-4 { margin-right: var(--spacing-lg); }
+  .mr-5 { margin-right: var(--spacing-xl); }
+  
+  .p-1 { padding: var(--spacing-xs); }
+  .p-2 { padding: var(--spacing-sm); }
+  .p-3 { padding: var(--spacing-md); }
+  .p-4 { padding: var(--spacing-lg); }
+  .p-5 { padding: var(--spacing-xl); }
+  
+  /* Container */
+  .container {
+    width: 100%;
+    padding-right: var(--spacing-md);
+    padding-left: var(--spacing-md);
+    margin-right: auto;
+    margin-left: auto;
+  }
+  
+  /* For mobile devices */
+  @media (max-width: 576px) {
+    .container {
+      max-width: 100%;
+    }
+  }
+  
+  /* For tablets */
+  @media (min-width: 576px) and (max-width: 992px) {
+    .container {
+      max-width: 720px;
+    }
+  }
+  
+  /* For desktops */
+  @media (min-width: 992px) {
+    .container {
+      max-width: 960px;
+    }
+  }
+  
+  /* For large desktops */
+  @media (min-width: 1200px) {
+    .container {
+      max-width: 1140px;
+    }
+  }

@@ -1,1 +1,175 @@
-<p>esg-override works!</p>
+<div class="container">
+  <header class="app-header">
+    <div class="logo-container">
+      <img src="assets/images/logo.jpg" alt="Santander Asset Management" class="logo">
+    </div>
+    <h1>ESG Data Override Interface</h1>
+  </header>
+  
+  <form [formGroup]="overrideForm" (ngSubmit)="onSubmit()">
+    <!-- Company Selection Section -->
+    <div class="form-section">
+      <h2>Step 1: Select Company</h2>
+      <div class="form-group">
+        <label for="company-select">Choose a company:</label>
+        <div class="select-wrapper">
+          <input type="text" id="company-search" placeholder="Search for a company...">
+          <select id="company-select" formControlName="company">
+            <option value="" disabled>Select a company</option>
+            <option *ngFor="let company of companies" [value]="company.id">{{ company.name }}</option>
+          </select>
+        </div>
+        <div *ngIf="overrideForm.get('company')?.invalid && overrideForm.get('company')?.touched" class="error-message">
+          Please select a company
+        </div>
+      </div>
+    </div>
+
+    <!-- ESG Metrics/Strategies Selection Section -->
+    <div class="form-section">
+      <h2>Step 2: Select ESG Metric/Strategy</h2>
+      <div class="form-group">
+        <label for="esg-select">Choose an ESG metric/strategy:</label>
+        <select id="esg-select" formControlName="metric">
+          <option value="" disabled>Select an ESG metric/strategy</option>
+          <option *ngFor="let metric of esgMetrics" [value]="metric.id">{{ metric.name }}</option>
+        </select>
+        <div *ngIf="overrideForm.get('metric')?.invalid && overrideForm.get('metric')?.touched" class="error-message">
+          Please select an ESG metric/strategy
+        </div>
+      </div>
+    </div>
+
+    <!-- Override Value Section -->
+    <div class="form-section">
+      <h2>Step 3: Set Override Value</h2>
+      <div class="form-group">
+        <label>Select override value:</label>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="value-ok" formControlName="overrideValue" value="OK">
+            <label for="value-ok">OK</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="value-excluded" formControlName="overrideValue" value="EXCLUDED">
+            <label for="value-excluded">EXCLUDED</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="value-flag" formControlName="overrideValue" value="FLAG">
+            <label for="value-flag">FLAG</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="value-other" formControlName="overrideValue" value="OTHER">
+            <label for="value-other">OTHER</label>
+          </div>
+        </div>
+        
+        <div *ngIf="showCustomValue">
+          <label for="other-value">Specify other value:</label>
+          <input type="text" id="other-value" formControlName="customValue" placeholder="Enter custom value">
+          <div *ngIf="overrideForm.get('customValue')?.invalid && overrideForm.get('customValue')?.touched" class="error-message">
+            Please specify a custom value
+          </div>
+        </div>
+        <p class="form-hint">Select an override value from the options above.</p>
+        <div *ngIf="overrideForm.get('overrideValue')?.invalid && overrideForm.get('overrideValue')?.touched" class="error-message">
+          Please select an override value
+        </div>
+      </div>
+    </div>
+
+    <!-- Override Type Section -->
+    <div class="form-section">
+      <h2>Step 4: Override Type</h2>
+      <div class="form-group">
+        <label>Is this a strategy override or a metric override?</label>
+        <div class="button-group">
+          <button type="button" id="btn-strategy" class="action-button" 
+                  [ngClass]="{'active': overrideForm.get('overrideType')?.value === 'strategy'}"
+                  (click)="overrideForm.get('overrideType')?.setValue('strategy')">Strategy</button>
+          <button type="button" id="btn-metric" class="action-button"
+                  [ngClass]="{'active': overrideForm.get('overrideType')?.value === 'metric'}"
+                  (click)="overrideForm.get('overrideType')?.setValue('metric')">Metric</button>
+        </div>
+        <div *ngIf="overrideForm.get('overrideType')?.invalid && overrideForm.get('overrideType')?.touched" class="error-message">
+          Please select an override type
+        </div>
+      </div>
+    </div>
+
+    <!-- Override Grounds Section (Only for Strategy) -->
+    <div class="form-section" *ngIf="showGroundSelection">
+      <h2>Step 5: Override Grounds</h2>
+      <div class="form-group">
+        <label>Which was the ground for the override of the strategy?</label>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="ground-exposure" formControlName="ground" value="exposure">
+            <label for="ground-exposure">Exposure</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="ground-controversy" formControlName="ground" value="controversy">
+            <label for="ground-controversy">Controversy</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="ground-rating" formControlName="ground" value="sustainability rating">
+            <label for="ground-rating">Sustainability Rating</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="ground-committee" formControlName="ground" value="committee">
+            <label for="ground-committee">Committee</label>
+          </div>
+        </div>
+        <div *ngIf="overrideForm.get('ground')?.invalid && overrideForm.get('ground')?.touched" class="error-message">
+          Please select a ground for the strategy override
+        </div>
+      </div>
+    </div>
+
+    <!-- Extend Override Section -->
+    <div class="form-section">
+      <h2>Step 6: Extend Override</h2>
+      <div class="form-group">
+        <label>Would you like to extend this override to the companies parents and/or subsidiaries?</label>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="extend-yes" [value]="true" formControlName="extend">
+            <label for="extend-yes">Yes</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="extend-no" [value]="false" formControlName="extend">
+            <label for="extend-no">No</label>
+          </div>
+        </div>
+        
+        <div *ngIf="showCompanyList">
+          <label for="company-list">Enter company names (one per line):</label>
+          <textarea id="company-list" rows="4" formControlName="companies" placeholder="Enter company names..."></textarea>
+          <div *ngIf="overrideForm.get('companies')?.invalid && overrideForm.get('companies')?.touched" class="error-message">
+            Please enter at least one company name
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Section -->
+    <div class="form-section">
+      <div class="form-group">
+        <button type="submit" class="submit-button">Generate Override</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Results Section -->
+  <div class="results-section" id="results-section" *ngIf="showResults">
+    <h2>All Set!</h2>
+    <div class="result-message">
+      <p>Your override has been successfully configured. Here's the SQL query to input this override:</p>
+    </div>
+    <div class="query-container">
+      <pre>{{ sqlQuery }}</pre>
+      <button type="button" class="copy-button" (click)="copyQuery()">Copy Query</button>
+      <button type="button" class="execute-button" (click)="executeQuery()">Execute Query</button>
+    </div>
+  </div>
+</div>
